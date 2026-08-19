@@ -2,10 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+  />
   <title>Scratch to Reveal</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -25,11 +31,6 @@
       text-align: center;
     }
 
-    .gift {
-      font-size: 44px;
-      margin-bottom: 6px;
-    }
-
     h1 {
       margin: 0 0 8px;
       font-size: 28px;
@@ -46,41 +47,19 @@
       border-radius: 24px;
       overflow: hidden;
       border: 1px solid #e5e7eb;
-      background: #fff3df;
+      background: white;
       margin-top: 24px;
     }
 
     .reveal {
-  position: absolute;
-  inset: 0;
+      position: absolute;
+      inset: 0;
 
-  background-image: url("image.png");
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  background-color: white;
-}
-
-    .reveal .emoji {
-      font-size: 52px;
-    }
-
-    .reveal .small {
-      color: #6b7280;
-      font-size: 13px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .reveal .big {
-      font-size: clamp(28px, 7vw, 42px);
-      font-weight: 800;
-    }
-
-    .reveal .sub {
-      font-size: 20px;
-      font-weight: 700;
+      background-image: url("image.png");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: white;
     }
 
     #scratchCanvas {
@@ -93,6 +72,7 @@
       touch-action: none;
       -webkit-user-select: none;
       user-select: none;
+      cursor: crosshair;
     }
 
     #status {
@@ -116,33 +96,62 @@
       border-radius: 12px;
       padding: 10px 16px;
       font-size: 14px;
+      cursor: pointer;
     }
 
     @media (max-width: 500px) {
-      .scratch-card { height: 290px; }
-      h1 { font-size: 24px; }
+      .scratch-card {
+        height: 290px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
+
 <body>
   <main class="wrap">
-    <div class="gift">🎁</div>
+
     <h1>Mom & Dad</h1>
-    <p class="muted">I have something special to tell you.</p>
-    <p><strong>Scratch below to reveal it ❤️</strong></p>
+
+    <p class="muted">
+      I have something special to tell you.
+    </p>
+
+    <p>
+      <strong>Scratch below to reveal it ❤️</strong>
+    </p>
 
     <div class="scratch-card" id="card">
-  <div class="reveal"></div>
-  <canvas id="scratchCanvas"></canvas>
-</div>
 
+      <div class="reveal"></div>
 
-    <button id="resetBtn" type="button">Scratch again</button>
+      <canvas id="scratchCanvas"></canvas>
+
+    </div>
+
+    <div id="status">
+      👆 Scratch with your finger
+    </div>
+
+    <div id="celebration">
+      🎊 ✨ 🎉 ✨ 🎊
+      <br />
+      Your daughter is going to Amazon! ❤️
+    </div>
+
+    <button id="resetBtn" type="button">
+      Scratch again
+    </button>
+
   </main>
 
   <script>
     const canvas = document.getElementById("scratchCanvas");
     const ctx = canvas.getContext("2d");
+
     const card = document.getElementById("card");
     const status = document.getElementById("status");
     const celebration = document.getElementById("celebration");
@@ -157,23 +166,38 @@
 
       canvas.width = Math.floor(rect.width * dpr);
       canvas.height = Math.floor(rect.height * dpr);
+
       canvas.style.width = rect.width + "px";
       canvas.style.height = rect.height + "px";
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
       ctx.globalCompositeOperation = "source-over";
 
-      const grad = ctx.createLinearGradient(0, 0, rect.width, rect.height);
-      grad.addColorStop(0, "#8d9197");
-      grad.addColorStop(0.5, "#c6c8cc");
-      grad.addColorStop(1, "#7f848b");
+      const gradient = ctx.createLinearGradient(
+        0,
+        0,
+        rect.width,
+        rect.height
+      );
 
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, rect.width, rect.height);
+      gradient.addColorStop(0, "#8d9197");
+      gradient.addColorStop(0.5, "#c6c8cc");
+      gradient.addColorStop(1, "#7f848b");
+
+      ctx.fillStyle = gradient;
+      ctx.fillRect(
+        0,
+        0,
+        rect.width,
+        rect.height
+      );
 
       ctx.fillStyle = "rgba(255,255,255,.16)";
+
       for (let i = 0; i < 220; i++) {
         ctx.beginPath();
+
         ctx.arc(
           Math.random() * rect.width,
           Math.random() * rect.height,
@@ -181,26 +205,45 @@
           0,
           Math.PI * 2
         );
+
         ctx.fill();
       }
 
       ctx.fillStyle = "#ffffff";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.font = "700 24px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
-      ctx.fillText("SCRATCH TO REVEAL ✨", rect.width / 2, rect.height / 2 - 12);
 
-      ctx.font = "16px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
-      ctx.fillText("Something exciting is hiding here…", rect.width / 2, rect.height / 2 + 24);
+      ctx.font =
+        "700 24px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+
+      ctx.fillText(
+        "SCRATCH TO REVEAL ✨",
+        rect.width / 2,
+        rect.height / 2 - 12
+      );
+
+      ctx.font =
+        "16px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
+
+      ctx.fillText(
+        "Something exciting is hiding here…",
+        rect.width / 2,
+        rect.height / 2 + 24
+      );
 
       canvas.style.opacity = "1";
       canvas.style.pointerEvents = "auto";
+
       celebration.style.display = "none";
-      status.textContent = "👆 Scratch with your finger";
+
+      status.textContent =
+        "👆 Scratch with your finger";
     }
 
-    function getPos(clientX, clientY) {
-      const rect = canvas.getBoundingClientRect();
+    function getPosition(clientX, clientY) {
+      const rect =
+        canvas.getBoundingClientRect();
+
       return {
         x: clientX - rect.left,
         y: clientY - rect.top
@@ -208,81 +251,188 @@
     }
 
     function eraseAt(x, y) {
-      ctx.globalCompositeOperation = "destination-out";
+      ctx.globalCompositeOperation =
+        "destination-out";
+
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
-      ctx.lineWidth = 46;
+      ctx.lineWidth = 50;
 
       ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(x, y);
+
+      ctx.moveTo(
+        lastX,
+        lastY
+      );
+
+      ctx.lineTo(
+        x,
+        y
+      );
+
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.arc(x, y, 23, 0, Math.PI * 2);
+
+      ctx.arc(
+        x,
+        y,
+        25,
+        0,
+        Math.PI * 2
+      );
+
       ctx.fill();
 
       lastX = x;
       lastY = y;
     }
 
-    function begin(clientX, clientY) {
+    function beginScratch(clientX, clientY) {
       isDrawing = true;
-      const p = getPos(clientX, clientY);
-      lastX = p.x;
-      lastY = p.y;
-      eraseAt(p.x, p.y);
+
+      const point =
+        getPosition(clientX, clientY);
+
+      lastX = point.x;
+      lastY = point.y;
+
+      eraseAt(
+        point.x,
+        point.y
+      );
     }
 
-    function move(clientX, clientY) {
-      if (!isDrawing) return;
-      const p = getPos(clientX, clientY);
-      eraseAt(p.x, p.y);
+    function moveScratch(clientX, clientY) {
+      if (!isDrawing) {
+        return;
+      }
+
+      const point =
+        getPosition(clientX, clientY);
+
+      eraseAt(
+        point.x,
+        point.y
+      );
     }
 
-    function end() {
+    function endScratch() {
       isDrawing = false;
     }
 
-    canvas.addEventListener("mousedown", (e) => {
-      e.preventDefault();
-      begin(e.clientX, e.clientY);
-    });
+    canvas.addEventListener(
+      "mousedown",
+      (event) => {
+        event.preventDefault();
 
-    window.addEventListener("mousemove", (e) => {
-      if (!isDrawing) return;
-      e.preventDefault();
-      move(e.clientX, e.clientY);
-    });
+        beginScratch(
+          event.clientX,
+          event.clientY
+        );
+      }
+    );
 
-    window.addEventListener("mouseup", end);
+    window.addEventListener(
+      "mousemove",
+      (event) => {
+        if (!isDrawing) {
+          return;
+        }
 
-    canvas.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      const t = e.touches[0];
-      begin(t.clientX, t.clientY);
-    }, { passive: false });
+        event.preventDefault();
 
-    canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      const t = e.touches[0];
-      move(t.clientX, t.clientY);
-    }, { passive: false });
+        moveScratch(
+          event.clientX,
+          event.clientY
+        );
+      }
+    );
 
-    canvas.addEventListener("touchend", (e) => {
-      e.preventDefault();
-      end();
-    }, { passive: false });
+    window.addEventListener(
+      "mouseup",
+      endScratch
+    );
 
-    document.getElementById("resetBtn").addEventListener("click", sizeAndPaint);
+    canvas.addEventListener(
+      "touchstart",
+      (event) => {
+        event.preventDefault();
 
-    window.addEventListener("load", () => {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(sizeAndPaint);
-      });
-    });
+        const touch =
+          event.touches[0];
 
-    window.addEventListener("resize", sizeAndPaint);
+        beginScratch(
+          touch.clientX,
+          touch.clientY
+        );
+      },
+      {
+        passive: false
+      }
+    );
+
+    canvas.addEventListener(
+      "touchmove",
+      (event) => {
+        event.preventDefault();
+
+        const touch =
+          event.touches[0];
+
+        moveScratch(
+          touch.clientX,
+          touch.clientY
+        );
+      },
+      {
+        passive: false
+      }
+    );
+
+    canvas.addEventListener(
+      "touchend",
+      (event) => {
+        event.preventDefault();
+
+        endScratch();
+
+        celebration.style.display =
+          "block";
+
+        status.textContent =
+          "🎉 SURPRISE!";
+      },
+      {
+        passive: false
+      }
+    );
+
+    document
+      .getElementById("resetBtn")
+      .addEventListener(
+        "click",
+        sizeAndPaint
+      );
+
+    window.addEventListener(
+      "load",
+      () => {
+        requestAnimationFrame(
+          () => {
+            requestAnimationFrame(
+              sizeAndPaint
+            );
+          }
+        );
+      }
+    );
+
+    window.addEventListener(
+      "resize",
+      sizeAndPaint
+    );
   </script>
+
 </body>
 </html>
