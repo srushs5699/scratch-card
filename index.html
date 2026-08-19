@@ -51,16 +51,16 @@
     }
 
     .reveal {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
-      gap: 10px;
-      background: #fff3df;
-    }
+  position: absolute;
+  inset: 0;
+
+  background-image: url("image.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  background-color: white;
+}
 
     .reveal .emoji {
       font-size: 52px;
@@ -132,13 +132,9 @@
     <p><strong>Scratch below to reveal it ❤️</strong></p>
 
     <div class="scratch-card" id="card">
-      <div class="reveal">
-        <div class="emoji">🎉</div>
-        <div class="small">Surprise!</div>
-        <div class="big">JOB AT AMAZON ✅</div>
-        <div class="sub">I DID IT! ❤️</div>
-        <div class="muted">— Srushti</div>
-      </div>
+  <div class="reveal"></div>
+  <canvas id="scratchCanvas"></canvas>
+</div>
 
       <canvas id="scratchCanvas"></canvas>
     </div>
